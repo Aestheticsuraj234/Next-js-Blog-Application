@@ -1,7 +1,17 @@
 import React, { useState, useContext, useEffect } from "react";
 import { BlogContext } from "@/context/BlogContext";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import dynamic from 'next/dynamic';
+
+
+const QuillNoSSRWrapper = dynamic(import('react-quill'), {	
+	ssr: false,
+	loading: () => <p>Loading ...</p>,
+	})
+
+   const  Quill =()=> {
+    return <QuillNoSSRWrapper  theme="snow" />
+  }
+  
 
 export default function EditModal() {
   const { showEditModal, setShowEditModal } = useContext(BlogContext);
@@ -172,7 +182,7 @@ export default function EditModal() {
                   <label htmlFor="blogDescription" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Blog Description
                   </label>
-                  <ReactQuill
+                  <Quill
                     value={editorState}
                     onChange={setEditorState}
                     modules={modules}
